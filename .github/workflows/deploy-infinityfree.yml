@@ -14,6 +14,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Generate private server config
+        env:
+          DB_PASS: ${{ secrets.DB_PASS }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        run: |
+          set -eu
+          if [ -z "$DB_PASS" ] || [ -z "$ADMIN_PASSWORD" ]; then
+            echo "Missing DB_PASS or ADMIN_PASSWORD repository secret."
+            exit 1
+          fi
+          umask 077
+          cat > config.php <<'PHP'
+          <?php
+          define('DB_HOST', 'sql210.infinityfree.com');
+          define('DB_NAME', 'if0_43018614_cinema');
+          define('DB_USER', 'if0_43018614');
+          define('DB_PASS', getenv('DB_PASS'));
+          define('ADMIN_USERNAME', 'admin');
+          define('ADMIN_PASSWORD', getenv('ADMIN_PASSWORD'));
+          $DB_HOST=DB_HOST; $DB_NAME=DB_NAME; $DB_USER=DB_USER; $DB_PASS=DB_PASS;
+          PHP
+
       - name: Deploy website files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -36,5 +58,4 @@ jobs:
             **/README.md
             **/.env*
             **/config.example.php
-            **/config.php
             **/database.sql
