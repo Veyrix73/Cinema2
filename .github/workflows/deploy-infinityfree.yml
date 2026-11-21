@@ -25,16 +25,27 @@ jobs:
             exit 1
           fi
           umask 077
-          cat > config.php <<'PHP'
-          <?php
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          def php_string(value):
+              return "'" + value.replace("\\", "\\\\").replace("'", "\\'") + "'"
+
+          content = """<?php
           define('DB_HOST', 'sql210.infinityfree.com');
           define('DB_NAME', 'if0_43018614_cinema');
           define('DB_USER', 'if0_43018614');
-          define('DB_PASS', getenv('DB_PASS'));
+          define('DB_PASS', {db_pass});
           define('ADMIN_USERNAME', 'admin');
-          define('ADMIN_PASSWORD', getenv('ADMIN_PASSWORD'));
+          define('ADMIN_PASSWORD', {admin_pass});
           $DB_HOST=DB_HOST; $DB_NAME=DB_NAME; $DB_USER=DB_USER; $DB_PASS=DB_PASS;
-          PHP
+          """.format(
+              db_pass=php_string(os.environ["DB_PASS"]),
+              admin_pass=php_string(os.environ["ADMIN_PASSWORD"]),
+          )
+          Path("config.php").write_text(content, encoding="utf-8")
+          PY
 
       - name: Deploy website files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
