@@ -22,9 +22,11 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           port: 21
-          server-dir: /htdocs/
+          server-dir: /dancingfruitcinema.ct.ws/htdocs/
           dangerous-clean-slate: false
           exclude: |
+            .git/**
+            **/.git/**
             **/.git*
             **/.github/**
             **/node_modules/**
