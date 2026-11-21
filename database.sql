@@ -1,0 +1,3 @@
+-- Optional manual setup. api.php also creates these tables automatically on first request.
+-- Select your InfinityFree MySQL database before running this script.
+-- The API will create the schema and initial settings automatically.
