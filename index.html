@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#130c0d">
+  <meta name="description" content="Dancing Fruit Cinema — izvēlies filmu un rezervē savu kino vietu.">
+  <title>Dancing Fruit Cinema</title>
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Dancing Fruit Cinema">
+  <meta property="og:description" content="Izvēlies filmu, rezervē savu vietu un izbaudi kino savā ritmā.">
+  <link rel="icon" type="image/svg+xml" href="https://i.ibb.co/S7MWNTyt/Chat-GPT-Image-Nov-20-2026-05-56-47-PM.png">
+  <link rel="stylesheet" href="styles.css?v=20261121-ultramobile">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script src="app.js?v=20261121-admin-open-fix-1" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home"><img class="brand-logo" src="https://i.ibb.co/S7MWNTyt/Chat-GPT-Image-Nov-20-2026-05-56-47-PM.png" alt=""><span>DANCING FRUIT <b>CINEMA</b></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Atvērt izvēlni">☰</button>
+    <nav id="mainNav">
+      <a href="#home" data-i18n="navHome">Sākums</a>
+      <a href="#movies" data-i18n="navMovies">Filmas</a>
+      <a href="#experience" data-i18n="navSeats">Sēdvietas</a>
+      <a href="#my-bookings" data-i18n="navBookings">Manas rezervācijas</a>
+    </nav>
+    <div class="header-actions">
+      <button class="account-button" id="accountButton" type="button">Mans konts</button>
+      <a class="nav-cta" href="#movies" data-i18n="buyTicket">Pirkt biļeti</a>
+    </div>
+  </header>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="heroEyebrow">TAVS MĀJĪGAIS KINO PIEDZĪVOJUMS</p>
+        <h1 data-i18n="heroTitle">Filmu vakari,<br><em>citā līmenī.</em></h1>
+        <p class="hero-description" data-i18n="heroText">Izvēlies filmu, rezervē savu vietu un izbaudi kino savā ritmā — arī īpaši ērtā gultas tipa sēdvietā.</p>
+        <a class="button button-primary" href="#movies"><span data-i18n="browseMovies">Apskatīt filmas</span><span>→</span></a>
+        <p class="hero-note"><span class="dot"></span><span data-i18n="ticketsFrom">Standarta biļetes no</span> <strong id="heroTicketPrice">0,10 €</strong></p>
+      </div>
+      <div class="hero-visual">
+        <a class="hero-emblem" href="#movies" aria-label="Apskatīt filmas">
+          <img src="https://i.ibb.co/S7MWNTyt/Chat-GPT-Image-Nov-20-2026-05-56-47-PM.png" alt="Dancing Fruit Cinema">
+        </a>
+      </div>
+    </section>
+    <section class="stats">
+      <div><strong id="statTicketPrice">0,10 €</strong><span data-i18n="statTicket">Standarta biļete</span></div>
+      <div><strong>7</strong><span data-i18n="statMax">Maks. vietas vienā rezervācijā</span></div>
+      <div><strong>24 h</strong><span data-i18n="statCancel">Klienta atcelšanas termiņš</span></div>
+      <div><strong>🍿 + 💧</strong><span data-i18n="statSnacks">Popkorns un ūdens</span></div>
+    </section>
+    <section class="section" id="movies">
+      <div class="section-heading">
+        <div><p class="eyebrow" data-i18n="moviesEyebrow">IZVĒLIES SAVU NĀKAMO FILMU</p><h2 data-i18n="moviesTitle">Šobrīd kinoteātrī</h2></div>
+        <input class="search" id="movieSearch" type="search" data-i18n-placeholder="searchMovies" placeholder="Meklēt filmu..." aria-label="Meklēt filmu">
+      </div>
+      <div class="filters" id="genreFilters">
+        <button class="filter active" data-genre="all" data-i18n="filterAll">Visas filmas</button>
+        <button class="filter" data-genre="Animācija" data-i18n="filterAnimation">Animācija</button>
+        <button class="filter" data-genre="Komēdija" data-i18n="filterComedy">Komēdija</button>
+        <button class="filter" data-genre="Piedzīvojumi" data-i18n="filterAdventure">Piedzīvojumi</button>
+        <button class="filter" data-genre="Drāma" data-i18n="filterDrama">Drāma</button>
+        <button class="filter" data-genre="Fantāzija" data-i18n="filterFantasy">Fantāzija</button>
+        <button class="filter" data-genre="Cits" data-i18n="filterOther">Cits</button>
+      </div>
+      <div class="movie-grid" id="movieGrid"></div>
+      <p class="empty hidden" id="emptyMovies" data-i18n="emptyMovies">Filmas netika atrastas.</p>
+    </section>
+    <section class="experience" id="experience">
+      <div class="experience-visual"><div class="bed-art"><span>✦</span></div><div class="chair-art">🪑</div></div>
+      <div>
+        <p class="eyebrow" data-i18n="comfortEyebrow">ĒRTĪBA PĒC TAVAS IZVĒLES</p>
+        <h2 data-i18n="comfortTitle">Ne tikai krēsls.<br><em>Tavs kino stils.</em></h2>
+        <p class="experience-text" data-i18n="comfortText">Standarta vietas ir plašas, gultas tipa sēdvietas. Izvēlies konkrētu vietu par 0,10 € par rezervāciju vai uzlabo izvēlēto sēdvietu uz biroja krēslu.</p>
+        <div class="features">
+          <div><b>▰</b><span><strong data-i18n="featureBeds">Gultas tipa vietas</strong><small data-i18n="featureBedsDesc">Iekļautas biļetes cenā</small></span></div>
+          <div><b>⌖</b><span><strong data-i18n="featureSelect">Vietas izvēle</strong><small data-i18n="featureSelectDesc">0,10 € par rezervāciju</small></span></div>
+          <div><b>🪑</b><span><strong data-i18n="featureChair">Biroja krēsls</strong><small data-i18n="featureChairDesc">No 0,20 € par vietu</small></span></div>
+        </div>
+      </div>
+    </section>
+    <section class="section bookings" id="my-bookings">
+      <div class="section-heading">
+        <div><p class="eyebrow" data-i18n="bookingEyebrow">TAVAS BIĻETES VIENUViet</p><h2 data-i18n="bookingTitle">Manas rezervācijas</h2></div>
+        <p class="muted" data-i18n="bookingLookupHelp">Ievadi rezervācijas kodu un e-pastu, ko izmantoji rezervācijā.</p>
+      </div>
+      <form class="lookup" id="bookingLookup">
+        <input type="text" id="lookupCode" data-i18n-placeholder="bookingCode" placeholder="Rezervācijas kods" required>
+        <input type="email" id="lookupEmail" data-i18n-placeholder="yourEmail" placeholder="Tavs e-pasts" required>
+        <button class="button button-secondary" type="submit" data-i18n="lookupButton">Apskatīt rezervāciju</button>
+      </form>
+      <div id="customerBookings" class="customer-bookings"></div>
+      <div id="accountBookings" class="account-bookings"></div>
+    </section>
+  </main>
+  <footer class="footer">
+    <a class="brand" href="#home"><img class="brand-logo" src="https://i.ibb.co/S7MWNTyt/Chat-GPT-Image-Nov-20-2026-05-56-47-PM.png" alt=""><span>DANCING FRUIT <b>CINEMA</b></span></a>
+    <p data-i18n="footerText">Dancing Fruit Cinema © 2026 · Visas tiesības aizsargātas.</p>
+    <span class="footer-tag">RADĪTS KINO MĪĻOTĀJIEM</span>
+  </footer>
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Aizvērt">×</button>
+      <div id="modalContent"></div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
