@@ -38,7 +38,7 @@ function initDb(): void {
  // Add the demo catalogue only on a brand-new database; never overwrite existing films.
  if((int)q('SELECT COUNT(*) FROM movies')->fetchColumn()===0){
   $defaults=[
-   ['Ron's Gone Wrong','Animācija',107,'7+',2021,'🤖','linear-gradient(135deg,#164e65,#172b46)','Sirsnīgs un jautrs piedzīvojums par zēnu un viņa neparasto robotu draugu.',2,['14:00','17:00','20:00']],
+   ["Ron's Gone Wrong",'Animācija',107,'7+',2021,'🤖','linear-gradient(135deg,#164e65,#172b46)','Sirsnīgs un jautrs piedzīvojums par zēnu un viņa neparasto robotu draugu.',2,['14:00','17:00','20:00']],
    ["The Queen's Corgi",'Komēdija',85,'7+',2019,'🐶','linear-gradient(135deg,#75502e,#a52c35)','Jautrs animācijas stāsts par karalisko korgiju un viņa piedzīvojumiem.',3,['15:00','18:00']],
    ['Augļu lielais piedzīvojums','Piedzīvojumi',96,'U',2026,'🍍','linear-gradient(135deg,#9b5623,#4c6a32)','Jautrs ģimenes piedzīvojums — Dancing Fruit Cinema demonstrācijas filma.',2,['15:00','18:00']]
   ];
