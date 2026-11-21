@@ -1,0 +1,9 @@
+Options -Indexes
+DirectoryIndex index.html index.php
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^api/(.*)$ api.php [QSA,L]
+</IfModule>
+<Files "config.php">
+  Require all denied
+</Files>
