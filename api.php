@@ -35,6 +35,20 @@ function initDb(): void {
  "CREATE TABLE IF NOT EXISTS cinema_settings(setting_key VARCHAR(30) PRIMARY KEY,value_cents INT NOT NULL)"
  ];foreach($sql as $s)db()->exec($s);
  foreach(['ticket'=>1000,'custom'=>1000,'office'=>2000,'water'=>2000,'popcorn'=>5000] as $k=>$v)q('INSERT IGNORE INTO cinema_settings(setting_key,value_cents) VALUES(?,?)',[$k,$v]);
+ // Add the demo catalogue only on a brand-new database; never overwrite existing films.
+ if((int)q('SELECT COUNT(*) FROM movies')->fetchColumn()===0){
+  $defaults=[
+   ['Ron's Gone Wrong','Animācija',107,'7+',2021,'🤖','linear-gradient(135deg,#164e65,#172b46)','Sirsnīgs un jautrs piedzīvojums par zēnu un viņa neparasto robotu draugu.',2,['14:00','17:00','20:00']],
+   ["The Queen's Corgi",'Komēdija',85,'7+',2019,'🐶','linear-gradient(135deg,#75502e,#a52c35)','Jautrs animācijas stāsts par karalisko korgiju un viņa piedzīvojumiem.',3,['15:00','18:00']],
+   ['Augļu lielais piedzīvojums','Piedzīvojumi',96,'U',2026,'🍍','linear-gradient(135deg,#9b5623,#4c6a32)','Jautrs ģimenes piedzīvojums — Dancing Fruit Cinema demonstrācijas filma.',2,['15:00','18:00']]
+  ];
+  foreach($defaults as $d){$mid=uid();q('INSERT INTO movies(id,title,genre,duration,age,year,emoji,poster,description) VALUES(?,?,?,?,?,?,?,?,?)',[$mid,$d[0],$d[1],$d[2],$d[3],$d[4],$d[5],$d[6],$d[7]]);
+   foreach($d[9] as $time){$date=date('Y-m-d',strtotime('+'.$d[8].' days'));$sid=uid();q("INSERT IGNORE INTO screenings(id,movie_id,show_date,show_time,starts_at,hall_name) VALUES(?,?,?,?,?,'1. zāle')",[$sid,$mid,$date,$time,$date.' '.$time.':00']);$screen=q('SELECT id FROM screenings WHERE movie_id=? AND show_date=? AND show_time=?',[$mid,$date,$time])->fetch();foreach(seatIds() as $seat)q('INSERT IGNORE INTO screening_seats(screening_id,seat_number,office_chair) VALUES(?,?,?)',[$screen['id'],$seat,$seat==='CHAIR-L'?1:0]);}
+  }
+ }
+ // Repair the seven-seat layout for screenings already present in the database.
+ foreach(q('SELECT id FROM screenings')->fetchAll(PDO::FETCH_COLUMN) as $sid)foreach(seatIds() as $seat)q('INSERT IGNORE INTO screening_seats(screening_id,seat_number,office_chair) VALUES(?,?,?)',[$sid,$seat,$seat==='CHAIR-L'?1:0]);
+
  $adminName=defined('ADMIN_USERNAME')?ADMIN_USERNAME:'admin';$adminPass=defined('ADMIN_PASSWORD')?ADMIN_PASSWORD:'';
  if(strlen($adminPass)>=12)q('INSERT IGNORE INTO admin_users(id,username,password_hash) VALUES(?,?,?)',[uid(),$adminName,password_hash($adminPass,PASSWORD_DEFAULT)]);
 }
